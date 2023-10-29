@@ -26,6 +26,7 @@ class PlayerFactory extends Factory
             'province' => $this->faker->sentence(1),
             'country' => $this->faker->sentence(1),
             'postal' => $this->faker->randomNumber(6),
+            'points' => $this->faker->randomNumber(3)
         ];
     }
 }
