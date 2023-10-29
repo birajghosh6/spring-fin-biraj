@@ -14,14 +14,11 @@ return new class extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('addressLine1');
-            $table->string('addressLine2');
-            $table->string('city');
-            $table->string('province');
-            $table->string('country');
-            $table->string('postal');
+            $table->integer('age');
             $table->integer('points')->default(0);
-            $table->timestamps();
+            $table->string('address');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

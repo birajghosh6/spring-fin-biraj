@@ -11,12 +11,10 @@ class Player extends Model
 
     protected $fillable = [
         'name',
-        'addressLine1',
-        'AddressLine2',
-        'city',
-        'province',
-        'country',
-        'postal',
-        'points'
+        'age',
+        'points',
+        'address',
+        'created_at',
+        'updated_at'
     ];
 }

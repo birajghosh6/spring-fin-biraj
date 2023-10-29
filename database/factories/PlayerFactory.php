@@ -20,13 +20,9 @@ class PlayerFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'addressLine1' => $this->faker->sentence(1),
-            'addressLine2' => $this->faker->sentence(1),
-            'city' => $this->faker->sentence(1),
-            'province' => $this->faker->sentence(1),
-            'country' => $this->faker->sentence(1),
-            'postal' => $this->faker->randomNumber(6),
-            'points' => $this->faker->randomNumber(3)
+            'age' => $this->faker->randomNumber(2),
+            'points' => $this->faker->randomNumber(1),
+            'address' => $this->faker->address()
         ];
     }
 }
