@@ -69,4 +69,22 @@ class PlayerHelper {
 
         return $pointGroups;
     }
+
+
+    public static function getWinner() {
+        $players = DB::table('players')
+                        ->orderBy('points', 'DESC')
+                        ->get();
+
+        if (
+            $players[0]??false && 
+            $players[0]->points??false &&
+            $players[0]->points != $players[1]->points??null
+        ) {
+
+                return $players[0];
+        }
+
+        return null;
+    }
 }
