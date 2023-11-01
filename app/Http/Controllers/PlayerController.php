@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helpers\PlayerHelper;
 use App\Helpers\APIHelper;
+use App\Jobs\GenerateQR;
 use Exception;
 
 class PlayerController extends Controller
@@ -65,6 +66,8 @@ class PlayerController extends Controller
             $name = $request->input('Name');
             $age = $request->input('Age');
             $address = $request->input('Address');
+
+            GenerateQR::dispatch($address);
 
             $inputs = ['Name' => $name, 'Age' => $age, 'Address' => $address];
             APIHelper::requireInputs($inputs);
