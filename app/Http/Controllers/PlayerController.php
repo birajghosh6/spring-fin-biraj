@@ -34,7 +34,7 @@ class PlayerController extends Controller
             $decrementPoint = $request->input('DecrementPoint', false);
 
             if ( !(boolval($incrementPoint) xor boolval($decrementPoint))) {
-                throw new Exception("Provide either 'Increment' or 'Decrement'");
+                throw new Exception("Provide either 'IncrementPoint' or 'DecrementPoint'");
             }
             
             PlayerHelper::updatePlayerPointsInDB($playersId, $incrementPoint?1:-1);

@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 
 class PlayerHelper {
