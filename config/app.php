@@ -5,6 +5,8 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    'spring_api_key' => env('SPRING_API_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

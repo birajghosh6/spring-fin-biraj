@@ -5,14 +5,24 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use App\Console\Commands\AddWinner;
+use App\Console\Commands\ResetPoints;
+
 class Kernel extends ConsoleKernel
 {
+
+
+    protected $commands = [
+        AddWinner::class,
+        ResetPoints::class
+    ];
+    
     /**
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('add:winner')->everyFiveMinutes()->runInBackground();
     }
 
     /**

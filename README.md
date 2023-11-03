@@ -1,66 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Backend Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is the backend of the demo project and contains the endpoints that 
+frontend uses to call to render content.
 
-## About Laravel
+In order to set it up:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* Install [XAMPP](https://www.apachefriends.org/download.html)
+* Set MySQL port to 3307
+* Run Apache and MySQL
+* Open your PHPMyAdmin and create a database called `spring_fin`
+* In your php.ini file uncomment the line `extension=zip` by removing the
+`;` in front of it.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+In order to start the backend run these:
+```
+php artisan migrate # creates the required database tables
+php artisan serve
+php artisan queue:work  # for downloading the QR codes
+php artisan schedule:work # for adding to the winners table
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The .env values are:
 
-## Learning Laravel
+```
+APP_URL=http://localhost:8000
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3307
+DB_DATABASE=spring_fin
+DB_USERNAME=root
+DB_PASSWORD=
+QUEUE_CONNECTION=database
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+SPRING_API_KEY=mU1FEZdTaKtesL54mr1fXTEAKjDNR8rxib4FwKLMhl0ZPjclwAva96QThGn6WRmA
+FRONTEND_DOMAIN=http://localhost:3000
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+The endpoints are:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **GET** */players*
 
-## Laravel Sponsors
+    QueryParams: `"SortBy"` ('points', 'name') | `"Order"` ('ASC', 'DESC')
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    This fetches the list of players
 
-### Premium Partners
+- **PUT** */player/{playersId}*
+    
+    QueryParams: `"IncrementPoint"` (true, false) | `"DecrementPoint"` (true, false)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    This updated the player score to increase by 1 or decrease by 1. Cannot decrease score below 0.
 
-## Contributing
+- **DELETE** */player/{playersId}*
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    This deletes the player in the path param.
 
-## Code of Conduct
+- **POST** */player*
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    Body: `"Name"` | `"Age"` | `"Address"`
 
-## Security Vulnerabilities
+    This adds a new player that starts with 0 points.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **GET** */point-groups*
 
-## License
+    This returns a json of keys as points and values as names in array and average ages.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Authentication
+
+Authorization for endpoints is handled by the `X-API-Key` header where the API Key(mentioned in environment 
+variables section) is passed.
