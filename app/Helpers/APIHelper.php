@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Exception;
 
 class APIHelper {
     
@@ -9,12 +10,12 @@ class APIHelper {
         $emptyValues = [];
         foreach ($inputArr as $key => $value) {
             if (empty($value)) {
-                array_push($emptyValues, $value);
+                array_push($emptyValues, $key);
             }
         }
 
         if (! empty($emptyValues)) {
-            throw new Exception(implode(', ', $emptyValues) . "cannot be empty.");
+            throw new Exception(implode(', ', $emptyValues) . " cannot be empty.");
         }
     }
     

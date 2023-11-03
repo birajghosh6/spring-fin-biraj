@@ -67,12 +67,12 @@ class PlayerController extends Controller
             $age = $request->input('Age');
             $address = $request->input('Address');
 
-            GenerateQR::dispatch($address);
-
             $inputs = ['Name' => $name, 'Age' => $age, 'Address' => $address];
             APIHelper::requireInputs($inputs);
 
             PlayerHelper::addPlayerToDB($name, $age, $address);
+
+            GenerateQR::dispatch($address);
 
             return APIHelper::getSuccessResponse([
                 'Players' => PlayerHelper::fetchPlayersFromDB()

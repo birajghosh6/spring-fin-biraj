@@ -26,11 +26,10 @@ class VerifySpringApiKey
         ];
 
         if (!$isApiKeyValid) {
-            response()->json([
+            return response()->json([
                 'Success' => false,
                 'ErrorMessage' => 'Access Denied'
-            ], 403)->withHeaders($headers)->send();
-            die;
+            ], 403)->withHeaders($headers);
         }
         
         return $next($request);
